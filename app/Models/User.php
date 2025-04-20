@@ -2,15 +2,33 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\CarbonInterface;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    /**
+     * @property string $id
+     * @property string $name
+     * @property string $email
+     * @property string $password
+     * @property null|string $remember_token
+     * @property null|CarbonInterface $email_verified_at
+     * @property null|CarbonInterface $created_at
+     * @property null|CarbonInterface $updated_at
+     * @property null|CarbonInterface $deleted_at
+     */
+
+    /** @use HasFactory<UserFactory> */
+    use HasFactory;
+    use HasUlids;
+    use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +39,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'remember_token',
+        'email_verified_at',
     ];
 
     /**

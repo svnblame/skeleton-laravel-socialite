@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Identity\Provider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +16,13 @@ return new class extends Migration
             $table->ulid('id')->primary();
 
             $table->string('name');
+            $table->string('handle')->unique();
             $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('avatar')->nullable();
+            $table->string('provider')->default(Provider::GitHub->value);
 
-            $table->timestamp('email_verified_at')->nullable();
+            $table->text('provider_id');
+
             $table->timestamps();
             $table->softDeletes();
         });

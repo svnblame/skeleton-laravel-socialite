@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Identity\Provider;
 use Carbon\CarbonInterface;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     /**
      * @property string $id
@@ -37,10 +38,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'handle',
         'email',
-        'password',
-        'remember_token',
-        'email_verified_at',
+        'avatar',
+        'provider',
+        'provider_id',
     ];
 
     /**
@@ -49,8 +51,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'email_verified_at' => 'datetime',
+        'provider' => Provider::class,
+        'provider_id' => 'encrypted',
+        'password' => 'hashed',
     ];
 
     /**
